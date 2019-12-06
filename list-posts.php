@@ -42,7 +42,7 @@ $posts = getAllPosts($pdo);
 
         <h1>Posts list</h1>
 
-        <p>You have <?php echo count($posts) ?> posts.
+        <p>You have <?= count($posts) ?> posts.
 
         <form method="post">
             <table id="post-list">
@@ -50,18 +50,18 @@ $posts = getAllPosts($pdo);
                     <?php foreach ($posts as $post): ?>
                         <tr>
                             <td>
-                                <?php echo htmlEscape($post['title']) ?>
+                                <?= htmlEscape($post['title']) ?>
                             </td>
                             <td>
-                                <?php echo convertSqlDate($post['created_at']) ?>
+                                <?= convertSqlDate($post['created_at']) ?>
                             </td>
                             <td>
-                                <a href="edit-post.php?post_id=<?php echo $post['id']?>">Edit</a>
+                                <a href="edit-post.php?post_id=<?= $post['id']?>">Edit</a>
                             </td>
                             <td>
                                 <input
                                     type="submit"
-                                    name="delete-post[<?php echo $post['id']?>]"
+                                    name="delete-post[<?= $post['id']?>]"
                                     value="Delete"
                                 />
                             </td>

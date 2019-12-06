@@ -46,7 +46,7 @@ $notFound = isset($_GET['not-found']);
                         <?php if (isLoggedIn()): ?>
                             |
                             <a
-                                href="edit-post.php?post_id=<?php echo $post['id'] ?>"
+                                href="edit-post.php?post_id=<?= $post['id'] ?>"
                             >Edit</a>
                         <?php endif ?>
                     </div>
