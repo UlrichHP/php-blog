@@ -66,7 +66,7 @@ if ($_POST)
                     type="text"
                     id="username"
                     name="username"
-                    value="<?php echo htmlEscape($username) ?>"
+                    value="<?= htmlEscape($username) ?>"
                 />
             </div>
             <div>
