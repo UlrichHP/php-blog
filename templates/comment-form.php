@@ -15,8 +15,10 @@
         </ul>
     </div>
 <?php endif ?>
+
 <h3>Add your comment</h3>
-<form method="post" class="comment-form">
+
+<form method="post" class="comment-form user-form">
     <div>
         <label for="comment-name">
             Name:
