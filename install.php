@@ -89,8 +89,8 @@ if (isset($_SESSION['try-install']))
                     <?php endforeach ?>
 
                     <?php // Report the new password ?>
-                    The new '<?php echo htmlEscape($username) ?>' password is
-                    <span style="font-size: 1.2em;"><?php echo htmlEscape($password) ?></span>
+                    The new '<?= htmlEscape($username) ?>' password is
+                    <span style="font-size: 1.2em;"><?= htmlEscape($password) ?></span>
                     (copy it to clipboard if you wish).
                 </div>
 
