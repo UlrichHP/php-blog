@@ -16,13 +16,14 @@ if (isLoggedIn())
 {
     redirectAndExit('index.php');
 }
-
+    
 // Handle the form posting
 $username = '';
 if ($_POST)
 {
     // Init the database
     $pdo = getPDO();
+
     // We redirect only if the password is correct
     $username = $_POST['username'];
     $ok = tryLogin($pdo, $username, $_POST['password']);
@@ -33,7 +34,6 @@ if ($_POST)
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -53,21 +53,32 @@ if ($_POST)
         <?php endif ?>
 
         <p>Login here:</p>
+        
         <form
             method="post"
+            class="user-form"
         >
-            <p>
-                Username:
+            <div>
+                <label for="username">
+                    Username:
+                </label>
                 <input
                     type="text"
+                    id="username"
                     name="username"
-                    value="<?= htmlEscape($username) ?>"
+                    value="<?php echo htmlEscape($username) ?>"
                 />
-            </p>
-            <p>
-                Password:
-                <input type="password" name="password" />
-            </p>
+            </div>
+            <div>
+                <label for="password">
+                    Password:
+                </label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                />
+            </div>
             <input type="submit" name="submit" value="Login" />
         </form>
     </body>

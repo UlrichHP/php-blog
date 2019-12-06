@@ -38,7 +38,7 @@ $posts = getAllPosts($pdo);
         <?php require 'templates/head.php' ?>
     </head>
     <body>
-        <?php require 'templates/title.php' ?>
+        <?php require 'templates/top-menu.php' ?>
 
         <h1>Posts list</h1>
 
@@ -46,14 +46,28 @@ $posts = getAllPosts($pdo);
 
         <form method="post">
             <table id="post-list">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Creation date</th>
+                        <th>Comments</th>
+                        <th />
+                        <th />
+                    </tr>
+                </thead>
                 <tbody>
                     <?php foreach ($posts as $post): ?>
                         <tr>
                             <td>
-                                <?= htmlEscape($post['title']) ?>
+                            <a
+                                href="view-post.php?post_id=<?= $post['id']?>"
+                                ><?= htmlEscape($post['title']) ?></a>
                             </td>
                             <td>
                                 <?= convertSqlDate($post['created_at']) ?>
+                            </td>
+                            <td>
+                                <?= $post['comment_count'] ?>
                             </td>
                             <td>
                                 <a href="edit-post.php?post_id=<?= $post['id']?>">Edit</a>

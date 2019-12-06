@@ -18,6 +18,7 @@ else
 // Connect to the database, run a query, handle errors
 $pdo = getPDO();
 $row = getPostRow($pdo, $postId);
+$commentCount = $row['comment_count'];
 
 // If the post does not exist, let's deal with that here
 if (!$row)
@@ -44,7 +45,7 @@ if ($_POST) {
     }
 } else {
     $commentData = array(
-        'name' => '',
+        'name' => getAuthUser(),
         'website' => '',
         'text' => '',
     );
@@ -76,7 +77,9 @@ if ($_POST) {
 
         <?php require 'templates/list-comments.php' ?>
 
-        <?php // We use $commentData in this HTML fragment ?>
-        <?php require 'templates/comment-form.php' ?>
+        <?php if (isLoggedIn()): ?>
+            <?php // We use $commentData in this HTML fragment ?>
+            <?php require 'templates/comment-form.php' ?>
+        <?php endif ?>
     </body>
 </html>

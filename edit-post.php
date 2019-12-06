@@ -63,7 +63,7 @@ if ($_POST) {
 
     if (!$errors)
     {
-        redirectAndExit('edit-post.php?post_id=' . $postId);
+        redirectAndExit('view-post.php?post_id=' . $postId);
     }
 }
 
@@ -76,7 +76,7 @@ if ($_POST) {
         <?php require 'templates/head.php' ?>
     </head>
     <body>
-        <?php require 'templates/title.php' ?>
+        <?php require 'templates/top-menu.php' ?>
         
         <?php if (isset($_GET['post_id'])): ?>
             <h1>Edit post</h1>
