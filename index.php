@@ -37,17 +37,17 @@ $notFound = isset($_GET['not-found']);
 
         <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
             <h2>
-                <?php echo htmlEscape($row['title']) ?>
+                <?= htmlEscape($row['title']) ?>
             </h2>
             <div>
-                <?php echo convertSqlDate($row['created_at']) ?> 
-                (<?php echo countCommentsForPost($row['id']) ?> comments)
+                <?= convertSqlDate($row['created_at']) ?> 
+                (<?= countCommentsForPost($row['id']) ?> comments)
             </div>
             <p>
-                <?php echo htmlEscape($row['body']) ?>
+                <?= htmlEscape($row['body']) ?>
             </p>
             <p>
-                <a href="view-post.php?post_id=<?php echo $row['id'] ?>">Read more...</a>
+                <a href="view-post.php?post_id=<?= $row['id'] ?>">Read more...</a>
             </p>
         <?php endwhile ?>
         

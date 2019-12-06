@@ -1,74 +1,6 @@
 <?php
 require_once 'lib/common.php';
-
-function installBlog()
-{
-    // Get the PDO DSN string
-    $root = getRootPath();
-    $database = getDatabasePath();
-
-    $error = '';
-
-    // A security measure, to avoid anyone resetting the database if it already exists
-    if (is_readable($database) && filesize($database) > 0)
-    {
-        $error = 'Please delete the existing database manually before installing it afresh';
-    }
-
-    // Create an empty file for the database
-    if (!$error)
-    {
-        $createdOk = @touch($database);
-        if (!$createdOk)
-        {
-            $error = sprintf(
-                'Could not create the database, please allow the server to create new files in \'%s\'',
-                dirname($database)
-            );
-        }
-    }
-
-    // Grab the SQL commands we want to run on the database
-    if (!$error)
-    {
-        $sql = file_get_contents($root . '/data/init.sql');
-
-        if ($sql === false)
-        {
-            $error = 'Cannot find SQL file';
-        }
-    }
-
-    // Connect to the new database and try to run the SQL commands
-    if (!$error)
-    {
-        $pdo = getPDO();
-        $result = $pdo->exec($sql);
-        if ($result === false)
-        {
-            $error = 'Could not run SQL: ' . print_r($pdo->errorInfo(), true);
-        }
-    }
-
-    // See how many rows we created, if any
-    $count = array();
-
-    foreach(array('post', 'comment') as $tableName)
-    {
-        if (!$error)
-        {
-            $sql = "SELECT COUNT(*) AS c FROM " . $tableName;
-            $stmt = $pdo->query($sql);
-            if ($stmt)
-            {
-                // We store each count in an associative array
-                $count[$tableName] = $stmt->fetchColumn();
-            }
-        }
-    }
-
-    return array($count, $error);
-}
+require_once 'lib/install.php';
 
 // We store stuff in the session, to survive the redirect to self
 session_start();
@@ -77,7 +9,8 @@ session_start();
 if ($_POST)
 {
     // Here's the install
-    list($_SESSION['count'], $_SESSION['error']) = installBlog();
+    $pdo = getPDO();
+    list($_SESSION['count'], $_SESSION['error']) = installBlog($pdo);
 
     // ... and here we redirect from POST to GET
     redirectAndExit('install.php');
@@ -122,7 +55,7 @@ if ($_SESSION)
 
             <?php if ($error): ?>
                 <div class="error box">
-                    <?php echo $error ?>
+                    <?= $error ?>
                 </div>
             <?php else: ?>
                 <div class="success box">
@@ -131,9 +64,9 @@ if ($_SESSION)
                     <?php foreach (array('post', 'comment') as $tableName): ?>
                         <?php if (isset($count[$tableName])): ?>
                             <?php // Prints the count ?>
-                            <?php echo $count[$tableName] ?> new
+                            <?= $count[$tableName] ?> new
                             <?php // Prints the name of the thing ?>
-                            <?php echo $tableName ?>s
+                            <?= $tableName ?>s
                             were created.
                         <?php endif ?>
                     <?php endforeach ?>
